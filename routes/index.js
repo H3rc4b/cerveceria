@@ -10,24 +10,23 @@ router.post('/', async (req, res, next) => {
   var apellido = req.body.apellido;
   var email = req.body.email;
   var tel = req.body.tel;
-  var mensaje = req.body.comentarios;
+ // var mensaje = req.body.comentarios;
   console.log(req.body);
 
   var obj = {
     to: 'hernan_1587@hotmail.com',
     subject: 'comentacto desde la web',
-    html: nombre + " " + apellido + " se contacto atraves y quiere mas info a este correo: " + email + ", <br> Ademas, hizo el siguiente comentario: " + telefono
+    html: nombre + " " + apellido + " se contacto atraves y quiere mas info a este correo: " + email + ", <br> Ademas, hizo el siguiente comentario: " + tel
   }//cierra var obj
   var transport = nodemailer.createTransport({
-    host: "smtp.mailtrap.io",
-    port: 2525,
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
     auth: {
-      user: "df147c916b10df",
-      pass: "e4f154bfe21119"
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS
     }
   });// cierra transporter
    var info = await transport.sendMail(obj);
-
    res.render('index', {
      message: 'mensaje enviado correctamente',
    })
